@@ -8,11 +8,6 @@ variable "mirror" {
   default = "http://0.0.0.0:8000/CentOS-7-x86_64-Minimal-2009.iso"
 }
 
-variable "name" {
-  type    = string
-  default = "CentOS-7-x86_64-Minimal-2009"
-}
-
 variable "password" {
   type    = string
   default = "vagrant"
@@ -29,11 +24,11 @@ variable "user" {
 }
 variable "kickstart" {
   type    = string
-  default = "CentOS-7-x86_64-Minimal-2009-ks.cfg"
+  default = "centos-7-server.ks.cfg"
 }
 
 source "qemu" "centos7-server-base" {
-  headless         = true
+  headless         = false
   accelerator      = "kvm"
   boot_command     = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.kickstart}<enter><wait>"]
   boot_wait        = "5s"
@@ -56,11 +51,11 @@ build {
 
   provisioner "shell" {
     execute_command = "echo '${var.password}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-    scripts         = ["data/provision.sh"]
+    scripts         = ["data/centos-7-server.provision.sh"]
   }
 
   post-processor "vagrant" {
     include = ["data/Vagrantfile.spec"]
-    output  = "boxes/centos7-server-base.box"
+    output  = "../boxes/centos7-server-base:v0.0.1.box"
   }
 }
