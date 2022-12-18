@@ -83,6 +83,9 @@ cat <<-EOF >"${TARGET_DIR}/init.sh"
   sudo systemctl enable NetworkManager.service
   sudo pacman -S openssh --noconfirm
   sudo systemctl enable sshd.service
+
+  sudo pacman -S gnome --noconfirm
+  sudo systemctl enable gdm.service
 EOF
 
 cat /mnt/init.sh
