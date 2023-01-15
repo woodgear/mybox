@@ -80,12 +80,13 @@ cat <<-EOF >"${TARGET_DIR}/init.sh"
 
   echo "vagrant ALL=NOPASSWD:ALL" >/etc/sudoers.d/vagrant
   cat /etc/sudoers.d/vagrant
+  sudo pacman -S gnome --noconfirm
+  sudo systemctl enable gdm.service
+
   sudo systemctl enable NetworkManager.service
   sudo pacman -S openssh --noconfirm
   sudo systemctl enable sshd.service
 
-  sudo pacman -S gnome --noconfirm
-  sudo systemctl enable gdm.service
 EOF
 
 cat /mnt/init.sh
